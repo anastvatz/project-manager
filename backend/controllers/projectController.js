@@ -3,18 +3,22 @@
 // @access  Public
 
 import asyncHandler from 'express-async-handler';
+import User from '../models/userModel.js';
 
 import Project from "../models/projectsModel.js";
 
 const createProjects = asyncHandler(async (req, res) => {
+
+    const user = await User.findById(req.user._id);
+
     const { name, description, date, time } = req.body;
 
     const project = await Project.create({
         name,
-        description, date, time
+        description, date, time, owner: user._id
     });
 
-      if (user) {
+    //      if (user) {
     //     generateToken(res, user._id);
 
     res.status(201).json({
@@ -22,7 +26,7 @@ const createProjects = asyncHandler(async (req, res) => {
         description: project.description,
         date: project.date,
         time: project.time
-    });}
+    });//}
     //   } else {
     //     res.status(400);
     //     throw new Error('Invalid user data');
@@ -34,26 +38,26 @@ const createProjects = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProjects = asyncHandler(async (req, res) => {
-
+    const user = await User.findById(req.user._id);
+    console.log("LALALALA");
     if (user) {
-        const project = await Project.findById(req.user._id);
-        if (project) {
-            res.json({
-                name: project.name,
-                description: project.description,
-                date: project.date,
-                time: project.time
-            });
-        } else {
-            res.status(404);
-            throw new Error('User not found');
-        }
-    } 
-    else {
-        res.status(400);
+        const projects = await Project.find({ owner: req.user._id });
+
+        // for (p in projects) {
+        //     console.log(p.name, p.description);
+        //     res.json({
+        //         name: p.name,
+        //         description: p.description,
+        //         date: p.date,
+        //         time: p.time
+        //     });
+        // }
+        res.status(200).json(projects);
+
+    } else {
+        res.status(404);
         throw new Error('User not found');
     }
-
 
 });
 
@@ -61,47 +65,30 @@ const getUserProjects = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProjects = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+    const proj = await Project.findById(req.project._id);
 
-    if (user) {
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
+    if (proj) {
+        proj.date = proj.body.date || proj.date;
+        proj.time = proj.body.time || proj.time;
 
-        if (req.body.password) {
-            user.password = req.body.password;
-        }
-
-        const updatedUser = await user.save();
+        const updatedProject = await proj.save();
 
         res.json({
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
+            _id: updatedProject._id,
+            date: updatedProject.date,
+            time: updatedProject.time,
         });
     } else {
         res.status(404);
-        throw new Error('User not found');
+        throw new Error('Project not found');
     }
 });
 
 const deleteProjects = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+    const proj = await Project.findById(req.project._id);
 
-    if (user) {
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-
-        if (req.body.password) {
-            user.password = req.body.password;
-        }
-
-        const updatedUser = await user.save();
-
-        res.json({
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-        });
+    if (proj) {
+        const res = await Project.findByIdAndDelete(req.project._id);
     } else {
         res.status(404);
         throw new Error('User not found');

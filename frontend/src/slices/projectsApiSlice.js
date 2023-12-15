@@ -3,10 +3,17 @@ const PROJECTS_URL = '/api/project';
 
 export const projectsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    new: builder.mutation({
+    newp: builder.mutation({
       query: (data) => ({
         url: `${PROJECTS_URL}/new`,
         method: 'POST',
+        body: data,
+      }),
+    }),
+    getp: builder.mutation({
+      query: (data) => ({
+        url: `${PROJECTS_URL}`,
+        method: 'GET',
         body: data,
       }),
     }),
@@ -28,7 +35,8 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useNewMutation,
+  useNewpMutation,
+  useGetpMutation,
   useUpdateMutation,
   useDeleteMutation
 } = projectsApiSlice;

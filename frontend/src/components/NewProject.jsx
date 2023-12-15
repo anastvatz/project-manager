@@ -5,9 +5,11 @@ import Loader from '../components/Loader';
 // import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNewMutation } from '../slices/projectsApiSlice';
+import { useNewpMutation } from '../slices/projectsApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
+import { IoCreateOutline } from "react-icons/io5";
+
 
 const NewProject = () => {
     const [name, setName] = useState('');
@@ -15,18 +17,10 @@ const NewProject = () => {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [newP, { isLoading }] = useNewMutation();
+    const [newP, { isLoading }] = useNewpMutation();
 
-//    const { userInfo } = useSelector((state) => state.auth);
-
-    // useEffect(() => {
-    //     if (userInfo) {
-    //         navigate('/');
-    //     }
-    // }, [navigate, userInfo]);
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -35,9 +29,11 @@ const NewProject = () => {
         //     toast.error('Passwords do not match');
         // } else {
             try {
+                console.log (name, description);
                 const res = await newP({ name, description, date, time }).unwrap();
-                dispatch(setCredentials({ ...res }));
-                navigate('/projects');
+                toast.success('Project saved');
+                //dispatch(setCredentials({ ...res }));
+                navigate('/project');
             } catch (err) {
                 toast.error(err?.data?.message || err.error);
             }

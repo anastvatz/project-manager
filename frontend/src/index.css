@@ -1,0 +1,20 @@
+.red-button{
+    background-color: red;
+    
+}
+
+.red-button:hover{
+    background-color: rgb(224, 0, 0);
+}
+
+.me-3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.projects{
+    gap: 20px;
+}

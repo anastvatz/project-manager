@@ -11,13 +11,13 @@ const router = express.Router();
 
 router
     .route('/')
-    .get(protect, getUserProjects)
+    .get(protect, getUserProjects);
 
 router
-    .route('/update').put(protect, updateUserProjects)
+    .route('/update').put(protect, updateUserProjects);
 
 router
-    .route('/new').post(protect, createProjects)
+    .route('/new').post(protect, createProjects);
 
 router
     .route('/delete').put(protect, deleteProjects);

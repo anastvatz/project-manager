@@ -16,9 +16,13 @@ const projectSchema = mongoose.Schema(
       required: false,
     },
     time: {
-        type: String,
-        required: false,
-      },
+      type: String,
+      required: false,
+    },
+    owner: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,
