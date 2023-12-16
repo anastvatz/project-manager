@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import { useUpdateMutation } from '../slices/projectsApiSlice';
 import { useNavigate } from 'react-router-dom';
+import '../index.css';
 
 
 const EditProject = () => {
@@ -38,7 +39,7 @@ const EditProject = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        
+
         try {
             const res = await updateProject({
                 _id: storedProject._id,
@@ -52,7 +53,11 @@ const EditProject = () => {
             localStorage.removeItem('updatedProject');
             navigate("/project");
         } catch (err) {
-            toast.error(err?.data?.message || err.error);
+            if (err?.data?.error === 'Please enter valid date and time') {
+                toast.error('Please enter valid date and time');
+            } else {
+                toast.error(err?.data?.message || err.error);
+            }
         }
 
     };
@@ -98,11 +103,15 @@ const EditProject = () => {
                         onChange={(e) => setTime(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
+                <div className='cancel'>
+                    <Button type='submit' variant='primary' className='mt-3'>
+                        Update Project
+                    </Button>
 
-                <Button type='submit' variant='primary' className='mt-3'>
-                    Update Project
-                </Button>
-
+                    <Button variant='secondary' href='/project' className='mt-3'>
+                        Cancel
+                    </Button>
+                </div>
                 {isLoading && <Loader />}
             </Form>
         </FormContainer>

@@ -11,15 +11,24 @@ const createProjects = asyncHandler(async (req, res) => {
 
     const user = await User.findById(req.user._id);
 
+    const current = new Date();
+
+    let day = current.getDate();
+    let month = current.getMonth() + 1;
+    let year = current.getFullYear();
+
+
     const { name, description, date, time } = req.body;
+
+    if (date < `${year}-${month}-${day}` || (date == `${year}-${month}-${day}` && time < current.getHours() + ":" + current.getMinutes())) {
+        res.status(400);
+        throw new Error('Please enter valid date and time');
+    }
 
     const project = await Project.create({
         name,
         description, date, time, owner: user._id
     });
-
-    //      if (user) {
-    //     generateToken(res, user._id);
 
     res.status(201).json({
         name: project.name,
@@ -42,15 +51,6 @@ const getUserProjects = asyncHandler(async (req, res) => {
     if (user) {
         const projects = await Project.find({ owner: req.user._id });
 
-        // for (p in projects) {
-        //     console.log(p.name, p.description);
-        //     res.json({
-        //         name: p.name,
-        //         description: p.description,
-        //         date: p.date,
-        //         time: p.time
-        //     });
-        // }
         res.status(200).json(projects);
 
     } else {
@@ -67,8 +67,19 @@ const updateUserProjects = asyncHandler(async (req, res) => {
     try {
         const projectId = req.body._id;
         const project = await Project.findById(projectId);
+        const current = new Date();
+
+        let day = current.getDate();
+        let month = current.getMonth() + 1;
+        let year = current.getFullYear();
 
         if (project) {
+
+            if (req.body.date < `${year}-${month}-${day}` || (req.body.date == `${year}-${month}-${day}` && req.body.time < current.getHours() + ":" + current.getMinutes())) {
+                res.status(400);
+                throw new Error('Please enter valid date and time');
+            }
+            
             project.name = req.body.name || project.name;
             project.description = req.body.description || project.description;
             project.date = req.body.date || project.date;
@@ -89,8 +100,8 @@ const updateUserProjects = asyncHandler(async (req, res) => {
         }
     }
     catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        //console.error(error);
+        res.status(500).json({ error: error.message });
     }
 
 });

@@ -1,6 +1,5 @@
 .red-button{
     background-color: red;
-    
 }
 
 .red-button:hover{
@@ -33,7 +32,19 @@
 
 .description{
     width: 350px;
-    height: 23px;
+    height: 20px;
     overflow-y: scroll;
 }
 
+.danger{
+    color: rgb(228, 149, 0);
+}
+
+.no-danger{
+    color: green;
+}
+
+.cancel{
+    display: flex;
+    gap: 15px;
+}

@@ -15,9 +15,33 @@ import { useNavigate } from 'react-router-dom';
 const Project = () => {
     const { userInfo } = useSelector((state) => state.auth);
     const [projects, setProjects] = useState([]);
+
     const navigate = useNavigate();
 
     const [getProjects, { isLoading }] = useGetpMutation();
+    const current = new Date();
+
+    let day = current.getDate();
+    let month = current.getMonth() + 1;
+    let year = current.getFullYear();
+
+    const isDueVSoon = (date) => {
+        if (date.slice(0, 4) - year == 0 && date.slice(5, 7) - month == 0 && date.slice(8, 10) - day < 3) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    const isDueSoon = (date) => {
+        if (date.slice(0, 4) - year == 0 && date.slice(5, 7) - month == 0 && date.slice(8, 10) - day < 7) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     useEffect(() => {
         fetchProjects();
@@ -89,7 +113,7 @@ const Project = () => {
                                             <div key={project._id} className="project-item">
                                                 <p className='name'>Name: {project.name}</p>
                                                 <p className='description'>Description: {project.description}</p>
-                                                <p>Due Date: {project.date}</p>
+                                                <p className={isDueVSoon(project.date) ? 'text-danger' : isDueSoon(project.date) ? 'danger' : ''}>Due Date: {project.date}</p>
                                                 <p>Due Time: {project.time}</p>
                                                 <div className='buttons d-flex align-items-center justify-content-center' >
                                                     <Button variant='secondary' key={project._id} className="me-3" onClick={(e) => submitHandlerU(e, project._id)}>

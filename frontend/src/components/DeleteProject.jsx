@@ -14,6 +14,7 @@ const DeleteProject = () => {
         try {
             console.log(storedProject);
             const res = await del({ _id: storedProject._id }).unwrap();
+            toast.success('Project deleted successfully');
             navigate('/project');
           } catch (err) {
             toast.error(err?.data?.message || err.error);

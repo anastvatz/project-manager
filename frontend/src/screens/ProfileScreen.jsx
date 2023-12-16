@@ -91,9 +91,14 @@ const ProfileScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button type='submit' variant='primary' className='mt-3'>
-          Update
-        </Button>
+        <div className='cancel'>
+          <Button type='submit' variant='primary' className='mt-3'>
+            Update
+          </Button>
+          <Button variant='secondary' href='/' className='mt-3'>
+            Cancel
+          </Button>
+        </div>
 
         {isLoading && <Loader />}
       </Form>
