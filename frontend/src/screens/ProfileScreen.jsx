@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
@@ -15,6 +15,8 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -40,6 +42,7 @@ const ProfileScreen = () => {
         console.log(res);
         dispatch(setCredentials(res));
         toast.success('Profile updated successfully');
+        navigate("/project");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
-import { useUpdateUserMutation } from '../slices/usersApiSlice';
-import { setCredentials } from '../slices/authSlice';
+import { useUpdateMutation } from '../slices/projectsApiSlice';
+import { useNavigate } from 'react-router-dom';
+
 
 const EditProject = () => {
     const [name, setName] = useState('');
@@ -13,31 +13,44 @@ const EditProject = () => {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
 
-    //const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const { userInfo } = useSelector((state) => state.auth);
+    const storedProject = JSON.parse(localStorage.getItem('updatedProject'));
+    const [updateProject, { isLoading }] = useUpdateMutation();
+    console.log(storedProject);
 
-    const [updateProject, { isLoading }] = useUpdateUserMutation();
 
     useEffect(() => {
-        setDate(userInfo.date);
-        setTime(userInfo.time);
-    }, [userInfo.date, userInfo.time]);
+        setName(storedProject.name);
+        setDescription(storedProject.description);
+        if (storedProject.date !== null) {
+            setDate(storedProject.date);
+        }
+
+        if (storedProject.time !== null) {
+            setTime(storedProject.time);
+        }
+        console.log('Retrieved project for update:', storedProject);
+
+        //localStorage.removeItem('updatedProject');
+    }, [storedProject.date, storedProject.time]);
+
 
     const submitHandler = async (e) => {
         e.preventDefault();
-
+        
         try {
             const res = await updateProject({
-                _id: userInfo._id,
+                _id: storedProject._id,
                 name,
                 description,
                 date,
                 time
             }).unwrap();
             console.log(res);
-            //dispatch(setCredentials(res));
             toast.success('Project updated successfully');
+            localStorage.removeItem('updatedProject');
+            navigate("/project");
         } catch (err) {
             toast.error(err?.data?.message || err.error);
         }
@@ -77,7 +90,7 @@ const EditProject = () => {
                 </Form.Group>
 
                 <Form.Group className='my-2' controlId='time'>
-                    <Form.Label>Confirm time</Form.Label>
+                    <Form.Label>Time</Form.Label>
                     <Form.Control
                         type='time'
                         placeholder='Enter time'

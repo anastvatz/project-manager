@@ -17,7 +17,9 @@ import ProfileScreen from './screens/ProfileScreen.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import ProjectScreen from './screens/ProjectScreen.jsx';
 import NewProjectScreen from './screens/NewProjectScreen.jsx'; 
+//import ChooseProjectScreen from './screens/ChooseProjectScreen.jsx';
 import EditProjectScreen from './screens/EditProjectScreen.jsx';
+import DeleteProjectScreen from './screens/DeleteProjectScreen.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,9 +37,17 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute />}>
         <Route path='/new' element={<NewProjectScreen />} />
       </Route>
+{/* 
+      <Route path='' element={<PrivateRoute />}>
+        <Route path='/edit' element={<ChooseProjectScreen />} />
+      </Route> */}
 
       <Route path='' element={<PrivateRoute />}>
-        <Route path='/edit' element={<EditProjectScreen />} />
+        <Route path='/update' element={<EditProjectScreen />} />
+      </Route>
+
+      <Route path='' element={<PrivateRoute />}>
+        <Route path='/delete' element={<DeleteProjectScreen />} />
       </Route>
       
     </Route>

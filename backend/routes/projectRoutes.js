@@ -20,7 +20,7 @@ router
     .route('/new').post(protect, createProjects);
 
 router
-    .route('/delete').put(protect, deleteProjects);
+    .route('/delete').delete(protect, deleteProjects);
 
 
 

@@ -39,7 +39,6 @@ const createProjects = asyncHandler(async (req, res) => {
 // @access  Private
 const getUserProjects = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
-    console.log("LALALALA");
     if (user) {
         const projects = await Project.find({ owner: req.user._id });
 
@@ -65,33 +64,52 @@ const getUserProjects = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProjects = asyncHandler(async (req, res) => {
-    const proj = await Project.findById(req.project._id);
+    try {
+        const projectId = req.body._id;
+        const project = await Project.findById(projectId);
 
-    if (proj) {
-        proj.date = proj.body.date || proj.date;
-        proj.time = proj.body.time || proj.time;
+        if (project) {
+            project.name = req.body.name || project.name;
+            project.description = req.body.description || project.description;
+            project.date = req.body.date || project.date;
+            project.time = req.body.time || project.time;
 
-        const updatedProject = await proj.save();
+            const updatedProject = await project.save();
 
-        res.json({
-            _id: updatedProject._id,
-            date: updatedProject.date,
-            time: updatedProject.time,
-        });
-    } else {
-        res.status(404);
-        throw new Error('Project not found');
+            res.json({
+                _id: updatedProject._id,
+                name: updatedProject.name,
+                description: updatedProject.description,
+                date: updatedProject.date,
+                time: updatedProject.time,
+            });
+        } else {
+            res.status(404);
+            throw new Error('Project not found');
+        }
     }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
 });
 
 const deleteProjects = asyncHandler(async (req, res) => {
-    const proj = await Project.findById(req.project._id);
+    const projectId = req.body._id;
+    //console.log(projectId);
+    try {
+        const project = await Project.findById(projectId);
 
-    if (proj) {
-        const res = await Project.findByIdAndDelete(req.project._id);
-    } else {
-        res.status(404);
-        throw new Error('User not found');
+        if (project) {
+            await Project.deleteOne({ _id: projectId });
+            res.json({ message: 'Project deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Project not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

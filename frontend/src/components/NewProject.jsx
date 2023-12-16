@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
-// import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useNewpMutation } from '../slices/projectsApiSlice';
-import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
-import { IoCreateOutline } from "react-icons/io5";
 
 
 const NewProject = () => {
@@ -18,26 +14,18 @@ const NewProject = () => {
     const [time, setTime] = useState('');
 
     const navigate = useNavigate();
-
     const [newP, { isLoading }] = useNewpMutation();
-
 
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        // if (password !== confirmPassword) {
-        //     toast.error('Passwords do not match');
-        // } else {
             try {
-                console.log (name, description);
                 const res = await newP({ name, description, date, time }).unwrap();
                 toast.success('Project saved');
-                //dispatch(setCredentials({ ...res }));
                 navigate('/project');
             } catch (err) {
                 toast.error(err?.data?.message || err.error);
             }
-        // }
     };
     return (
         <FormContainer>

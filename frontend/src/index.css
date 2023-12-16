@@ -18,3 +18,22 @@
 .projects{
     gap: 20px;
 }
+
+.inside-project{
+    gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.project{
+    flex-basis: 49%;
+    height: 250px;
+    justify-content: space-between;
+}
+
+.description{
+    width: 350px;
+    height: 23px;
+    overflow-y: scroll;
+}
+
