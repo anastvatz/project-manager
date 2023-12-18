@@ -1,12 +1,12 @@
-.red-button{
+.red-button {
     background-color: red;
 }
 
-.red-button:hover{
+.red-button:hover {
     background-color: rgb(224, 0, 0);
 }
 
-.me-3{
+.me-3 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,37 +14,50 @@
 }
 
 
-.projects{
+.projects {
     gap: 20px;
 }
 
-.inside-project{
+.inside-project {
     gap: 15px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     flex-wrap: wrap;
 }
 
-.project{
-    flex-basis: 49%;
-    height: 250px;
+.project {
+    /* flex-basis: 49%; */
+    /* height: 250px; */
     justify-content: space-between;
 }
 
-.description{
-    width: 350px;
+.description {
+    /* width: 350px; */
     height: 20px;
     overflow-y: scroll;
 }
 
-.danger{
+.danger {
     color: rgb(228, 149, 0);
 }
 
-.no-danger{
+.no-danger {
     color: green;
 }
 
-.cancel{
+.cancel {
     display: flex;
     gap: 15px;
+}
+
+.buttons {
+    display: flex;
+}
+
+@media only screen and (max-width: 800px) {
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+    }
 }

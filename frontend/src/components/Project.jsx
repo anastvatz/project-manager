@@ -109,18 +109,18 @@ const Project = () => {
                                 <h3>Projects</h3>
                                 <div className='inside-project'>
                                     {sortedProjects.map((project) => (
-                                        <Card className='p-4 d-flex flex-column project-card bg-light w-50 h-40 project'>
+                                        <Card className='p-4 d-flex flex-column project-card bg-light project'>
                                             <div key={project._id} className="project-item">
                                                 <p className='name'>Name: {project.name}</p>
                                                 <p className='description'>Description: {project.description}</p>
                                                 <p className={isDueVSoon(project.date) ? 'text-danger' : isDueSoon(project.date) ? 'danger' : ''}>Due Date: {project.date}</p>
                                                 <p>Due Time: {project.time}</p>
-                                                <div className='buttons d-flex align-items-center justify-content-center' >
+                                                <div className='buttons align-items-center justify-content-center' >
                                                     <Button variant='secondary' key={project._id} className="me-3" onClick={(e) => submitHandlerU(e, project._id)}>
                                                         Edit<FiEdit />
                                                     </Button>
                                                     <p></p>
-                                                    <Button variant='secondary' key={project._id} onClick={(e) => submitHandlerD(e, project._id)} className='me-3 red-button'>
+                                                    <Button key={project._id} onClick={(e) => submitHandlerD(e, project._id)} className='me-3 red-button'>
                                                         Delete<FiDelete />
                                                     </Button>
                                                 </div>
