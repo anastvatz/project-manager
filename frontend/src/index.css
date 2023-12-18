@@ -33,7 +33,7 @@
 
 .description {
     /* width: 350px; */
-    height: 20px;
+    height: 23px;
     overflow-y: scroll;
 }
 
@@ -56,8 +56,15 @@
 
 @media only screen and (max-width: 800px) {
 
-    .buttons {
+    /* .buttons {
         display: flex;
         flex-direction: column;
+    } */
+
+    .inside-project {
+        gap: 15px;
+        display: grid;
+        grid-template-columns: 1fr;
+        flex-wrap: wrap;
     }
 }
