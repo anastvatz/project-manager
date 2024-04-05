@@ -34,6 +34,8 @@ JWT_SECRET = 'abc123'
 
 Change the JWT_SECRET to what you want
 
+'.env' is missing in the example for security reasons
+
 ### Install Dependencies (frontend & backend)
 
 ```
